@@ -47,7 +47,13 @@ def test_solution(easy_solution):
     assert all(rows)
 
 
-def test_solver():
+def test_solver_easy():
     assert solver(puzzles.easy_puzzle) == puzzles.easy_solution
+
+
+def test_solver_hard():
     assert solver(puzzles.hard_puzzle) == puzzles.hard_solution
+
+
+def test_solver_expert():
     assert solver(puzzles.expert_puzzle) == puzzles.expert_solution

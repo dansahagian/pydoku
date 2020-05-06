@@ -82,7 +82,7 @@ def build_possible_solutions(solution, possible_values):
     return solutions
 
 
-def solver(puzzle, solution=None, guessing=False):
+def solver(puzzle, solution=None):
     did_update = False
     solution = solution if solution else copy.deepcopy(puzzle)
 
@@ -99,13 +99,11 @@ def solver(puzzle, solution=None, guessing=False):
 
     if did_update:
         return solver(puzzle, solution)
-    if guessing:
-        return solution
 
     possible_solutions = build_possible_solutions(solution, possible_values)
     for possible_solution in possible_solutions:
         try:
-            response = solver(puzzle, possible_solution, True)
+            response = solver(puzzle, possible_solution)
             if response:
                 return response
         except RecursionError:
