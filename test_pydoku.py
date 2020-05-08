@@ -1,7 +1,12 @@
 import pytest
 
-from pydoku import get_col, get_cube, get_max_count, check_location, solver, \
-    count_values
+from pydoku import (
+    get_col,
+    get_cube,
+    check_location,
+    solver,
+    count_values,
+)
 
 import puzzles
 
@@ -26,10 +31,6 @@ def test_get_cube(easy_puzzle):
     assert get_cube(easy_puzzle, 8, 5) == [1, 0, 0, 0, 9, 0, 6, 0, 7]
 
 
-def test_get_max_count(easy_puzzle):
-    assert get_max_count(easy_puzzle) == 7
-
-
 def test_check_location(easy_puzzle):
     assert check_location(easy_puzzle, 7, 1, 7)
     assert not check_location(easy_puzzle, 7, 1, 1)
@@ -40,20 +41,14 @@ def test_count_values(easy_puzzle, easy_solution):
     assert count_values(easy_solution) == 81
 
 
-def test_solution(easy_solution):
-    rows = []
-    for row in easy_solution:
-        rows.append(all([x in row for x in range(1, 10)]))
-    assert all(rows)
-
-
-def test_solver_easy():
-    assert solver(puzzles.easy_puzzle) == puzzles.easy_solution
-
-
-def test_solver_hard():
-    assert solver(puzzles.hard_puzzle) == puzzles.hard_solution
-
-
-def test_solver_expert():
-    assert solver(puzzles.expert_puzzle) == puzzles.expert_solution
+@pytest.mark.parametrize(
+    "puzzle,solution",
+    [
+        (puzzles.easy_puzzle, puzzles.easy_solution),
+        (puzzles.hard_puzzle, puzzles.hard_solution),
+        (puzzles.expert_puzzle, puzzles.expert_solution),
+        (puzzles.expert_puzzle2, puzzles.expert_solution2),
+    ],
+)
+def test_solver(puzzle, solution):
+    assert solver(puzzle) == solution
