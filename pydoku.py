@@ -1,5 +1,4 @@
 import copy
-import puzzles
 
 
 def get_limits(pos):
@@ -22,14 +21,6 @@ def get_cube(solution, row, col):
     return [
         value for row in solution[start_row:end_row] for value in row[start_col:end_col]
     ]
-
-
-def get_max_count(solution):
-    counts = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    for row in solution:
-        for col in row:
-            counts[col] += 1
-    return counts.index(max(counts[1:]))
 
 
 def check_location(solution, value, row, col):
@@ -58,6 +49,24 @@ def count_values(solution):
     return sum([1 for row in solution for value in row if value > 0])
 
 
+def is_solution_valid(solution):
+    for row in solution:
+        row_value_counts = [0 for _ in range(0, 10)]
+        for value in row:
+            row_value_counts[value] += 1
+        if max(row_value_counts[1:]) > 1:
+            return False
+
+    for col in range(0, 9):
+        col_value_counts = [0 for _ in range(0, 10)]
+        for value in get_col(solution, col):
+            col_value_counts[value] += 1
+        if max(col_value_counts[1:]) > 1:
+            return False
+
+    return True
+
+
 def build_possible_solutions(solution, possible_values):
     twofers = []
     for i, row in enumerate(possible_values):
@@ -82,13 +91,14 @@ def build_possible_solutions(solution, possible_values):
     return solutions
 
 
-def solver(puzzle, solution=None):
-    did_update = False
-    solution = solution if solution else copy.deepcopy(puzzle)
+def solver(solution):
+    if not is_solution_valid(solution):
+        return None
 
     if count_values(solution) == 81:
         return solution
 
+    did_update = False
     possible_values = get_possible_values(solution)
 
     for i, row in enumerate(possible_values):
@@ -98,23 +108,49 @@ def solver(puzzle, solution=None):
                 did_update = True
 
     if did_update:
-        return solver(puzzle, solution)
+        return solver(solution)
 
     possible_solutions = build_possible_solutions(solution, possible_values)
     for possible_solution in possible_solutions:
         try:
-            response = solver(puzzle, possible_solution)
+            response = solver(possible_solution)
             if response:
                 return response
         except RecursionError:
             pass
 
 
-def main(puzzle):
-    solution = solver(puzzle)
+def printer(solution):
+    print()
     for row in solution:
-        print(row)
+        r = [(lambda x: str(x) if x > 0 else " ")(x) for x in row]
+        print(f"| {' | '.join(r)} |")
+        print("-" * 37)
+    print()
+
+
+def preamble():
+    print("\nHello! Hopefully I can help you solve your Sudoku puzzle.")
+    print("I will have you enter your puzzle row by row.")
+    print("Please use 0 as an empty and spaces between cells.")
+    print("An example row might look like this: 4 0 3 0 0 0 7 0 0.\n")
+
+
+def main():
+    preamble()
+
+    puzzle = []
+    for i in range(0, 9):
+        data = input(f"Please enter row {i + 1}: ")
+        row = [int(x) for x in data.split()]
+        puzzle.append(row)
+
+    print("Before I begin, is this the puzzle you want me to solve?\n")
+    printer(puzzle)
+
+    answer = input("y/n: ")
+    return printer(solver(puzzle)) if answer == "y" else main()
 
 
 if __name__ == "__main__":
-    main(puzzles.expert_puzzle)
+    main()
