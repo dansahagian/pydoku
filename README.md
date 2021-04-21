@@ -8,7 +8,9 @@
 This solver has successfully solved expert level Sudoku puzzles in a couple of seconds.
 
 ### Setup
-* `python3.8 -m venv ./venv`
+Strictly speaking, there are no requirements to run the solver.
+If you'd like to use the black formatter or run the tests that you'll want to install the requirements into a virtualenv.
+* `python3.9 -m venv ./venv`
 * `pip install -r requirements.txt`
 
 ### Tests
