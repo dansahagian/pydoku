@@ -1,7 +1,8 @@
 import copy
+from typing import Tuple
 
 
-def get_limits(pos: int) -> (int, int):
+def get_limits(pos: int) -> Tuple[int, int]:
     if pos < 3:
         return 0, 3
     if pos < 6:
@@ -18,9 +19,7 @@ def get_cube(solution: list[list], row: int, col: int) -> list:
     start_row, end_row = get_limits(row)
     start_col, end_col = get_limits(col)
 
-    return [
-        value for row in solution[start_row:end_row] for value in row[start_col:end_col]
-    ]
+    return [value for row in solution[start_row:end_row] for value in row[start_col:end_col]]
 
 
 def check_location(solution: list[list], value: int, row: int, col: int) -> bool:
@@ -38,7 +37,7 @@ def check_location(solution: list[list], value: int, row: int, col: int) -> bool
 def get_possible_values(solution: list[list]):
     possible_values = [[[] for _ in range(0, 9)] for _ in range(0, 9)]
     for i, row in enumerate(solution):
-        for j, value in enumerate(row):
+        for j, _ in enumerate(row):
             for k in range(1, 10):
                 if check_location(solution, k, i, j):
                     possible_values[i][j].append(k)
@@ -120,8 +119,11 @@ def solver(solution: list[list]) -> list[list] | None:
             pass
 
 
-def printer(solution: list[list]):
+def printer(solution: list[list] | None):
     print()
+    if solution is None:
+        print("No solution found.")
+        return
     for row in solution:
         r = [(lambda x: str(x) if x > 0 else " ")(x) for x in row]
         print(f"| {' | '.join(r)} |")

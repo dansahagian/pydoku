@@ -1,0 +1,39 @@
+[project]
+name = "pydoku"
+version = "0.1.0"
+description = "Sudoku solver"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = []
+
+[dependency-groups]
+dev = ["pre-commit>=4.2.0", "pyright[nodejs]>=1.1.401", "pytest>=8.3.5"]
+
+[tool.ruff]
+line-length = 99
+target-version = "py313"
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+docstring-code-format = true
+exclude = [
+    ".git",
+    ".pytest_cache",
+    ".ruff_cache",
+    "venv",
+    ".venv",
+    "pyproject.toml",
+]
+
+[tool.pyright]
+exclude = ["**/__pycache__", ".venv/**", "venv/**", ".venv", "venv"]
+ignore = [".venv/**"]
+typeCheckingMode = "basic"
+reportMissingImports = "error"
+reportUnusedImports = "error"
+reportUnusedVariable = "error"
+reportUnnecessaryTypeIgnoreComment = "error"
+reportMissingTypeStubs = false
+venvPath = "."
+venv = ".venv"

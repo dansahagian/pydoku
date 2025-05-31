@@ -1,0 +1,26 @@
+repos:
+  - repo: local
+    hooks:
+      - id: ruff-imports
+        name: ruff import check
+        entry: ./dev/checks/ruff-imports
+        language: script
+        pass_filenames: false
+
+      - id: ruff-format
+        name: ruff formatting
+        entry: ./dev/checks/ruff-format
+        language: script
+        pass_filenames: false
+
+      - id: ruff-check
+        name: ruff checks
+        entry: ./dev/checks/ruff-check
+        language: script
+        pass_filenames: false
+
+      - id: pyright
+        name: pyright checks
+        entry: ./dev/checks/pyright
+        language: script
+        pass_filenames: false

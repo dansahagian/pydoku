@@ -1,5 +1,3 @@
-[![Python 3.9](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/release/python-3124/)
-
 # Pydoku
 ## A Sudoku puzzle solver written in Python
 
@@ -8,13 +6,32 @@ This solver has successfully solved expert level Sudoku puzzles in a couple of s
 
 ### Setup
 Strictly speaking, there are no requirements other than the standard library to run the solver.
+```shell
+python src/pydoku.py
+```
 
-### Tests
-If you'd like to run the tests that you'll want to install `pytest`.
-* `pip install pytest`
-* `pytest .`  
+### Development Environment
+Install uv:
+https://docs.astral.sh/uv/
 
-### Todo
-* Look into a better grid/entry
-* Write some more test coverage
-* Speed things up
+```shell
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+Install `ruff` and `pre-commit`:
+```shell
+uv tool install ruff
+uv tool install pre-commit
+```
+
+Make sure these are on your PATH:
+```shell
+export PATH=$PATH:~/.cargo/bin
+export PATH=$PATH:~/.local/bin
+```
+
+Create the virtualenv and install dependencies:
+```shell
+uv sync
+pre-commit install
+```
